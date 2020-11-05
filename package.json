@@ -1,0 +1,50 @@
+{
+  "name": "parques-a-la-colombiana",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack serve --mode=development --inline --hot",
+    "build": "cross-env NODE_ENV=production webpack --mode=production --progress",
+    "test": "NODE_ENV=testing jest --watchAll --passWithNoTests",
+    "lint": "find . -path ./node_modules -prune -o -path ./generadores/templates -prune -o -path ./build -prune -o -type f \\( -iname \\*.js -o -iname \\*\\.ts \\) -print | xargs -I{} npx eslint {}",
+    "lint:fix": "find . -path ./node_modules -prune -o -path ./generadores/templates -prune -o -path ./build -prune -o -type f \\( -iname \\*.js -o -iname \\*\\.ts \\) -print | xargs -I{} npx eslint --fix {}"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alejomongua/parquesFrontend.git"
+  },
+  "dependencies": {
+    "@babel/core": "^7.12.3",
+    "autoprefixer": "^10.0.1",
+    "cross-env": "^7.0.2",
+    "css-loader": "^5.0.1",
+    "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^1.2.1",
+    "postcss": "^8.1.4",
+    "postcss-loader": "^4.0.4",
+    "tailwindcss": "^1.9.6",
+    "ts-loader": "^8.0.9",
+    "typescript": "^4.0.5",
+    "webpack": "^5.4.0",
+    "webpack-cli": "^4.2.0"
+  },
+  "devDependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "@testing-library/jest-dom": "^5.11.5",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.12.1",
+    "eslint-config-standard": "^16.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.2",
+    "jest": "^26.6.3",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
