@@ -6,6 +6,8 @@ export const modalRoot = document.getElementById('modal')
 export const modalTitulo = document.getElementById('modal-titulo')
 export const modalContenido = document.getElementById('modal-contenido')
 export const modalEnviar = document.getElementById('modal-enviar')
+export const modalClose = document.querySelectorAll('.modal-close')
+export const modalOverlay = document.querySelector('.modal-overlay')
 
 // Botones
 export const botonListarPartidasPublicas = document.getElementById('listar-partidas-publicas')
