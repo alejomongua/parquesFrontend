@@ -49,9 +49,9 @@ type Jugador = {
 
 type Turno = {
   color: string
-  dado1: number | null
-  dado2: number | null
-  pares: number | null
+  dado1?: number
+  dado2?: number
+  pares?: number
   lanzado: boolean
   valor_original_dado1?: number
   valor_original_dado2?: number
@@ -78,22 +78,6 @@ class Juego {
     this.ultimo_turno = valores.ultimo_turno
     this.turno = valores.turno
     this.jugadores = valores.jugadores
-  }
-
-  lanzarDados () {
-
-  }
-
-  mover (ficha: number) {
-
-  }
-
-  sacarDeLaCarcel () {
-
-  }
-
-  soplar (ficha: number) {
-
   }
 }
 
@@ -179,7 +163,8 @@ export default class {
         return { error: true, mensaje: 'No hay llave del jugador almacenada' }
       }
       const headers = [['player-key', playerKey]]
-      const response = await fetch(`${serverUrl}/juegos/${idJuego}/iniciar`, { headers })
+      const response = await fetch(`${serverUrl}/juegos/${idJuego}/iniciar`,
+        { headers })
       const respuesta = await response.json()
       const juego = new Juego(respuesta.id)
       juego.asignarValores(respuesta)
@@ -195,7 +180,13 @@ export default class {
 
   async lanzar (idJuego:string):Promise<APIError|Juego> {
     try {
-      const response = await fetch(`${serverUrl}/juegos/${idJuego}/lanzar_dado`)
+      const playerKey = retrievePlayerKey()
+      if (!playerKey) {
+        return { error: true, mensaje: 'No hay llave del jugador almacenada' }
+      }
+      const headers = [['player-key', playerKey]]
+      const response = await fetch(`${serverUrl}/juegos/${idJuego}/lanzar_dado`,
+        { headers })
       const respuesta = await response.json()
       const juego = new Juego(respuesta.id)
       juego.asignarValores(respuesta)
@@ -209,9 +200,23 @@ export default class {
     }
   }
 
-  async mover (idJuego:string):Promise<APIError|Juego> {
+  async mover (idJuego:string, ficha:number, cantidad:number):Promise<APIError|Juego> {
     try {
-      const response = await fetch(`${serverUrl}/juegos/${idJuego}/mover_ficha`)
+      const playerKey = retrievePlayerKey()
+      if (!playerKey) {
+        return { error: true, mensaje: 'No hay llave del jugador almacenada' }
+      }
+      const headers = [['player-key', playerKey]]
+      const url = new URL(`${serverUrl}/juegos/${idJuego}/mover_ficha`)
+
+      const params:{[key:string]: string} = {
+        ficha: JSON.stringify(ficha),
+        cantidad: JSON.stringify(cantidad)
+      }
+
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
+      const response = await fetch(url.toString(), { headers })
       const respuesta = await response.json()
       const juego = new Juego(respuesta.id)
       juego.asignarValores(respuesta)
@@ -227,7 +232,13 @@ export default class {
 
   async sacarDeLaCarcel (idJuego:string):Promise<APIError|Juego> {
     try {
-      const response = await fetch(`${serverUrl}/juegos/${idJuego}/sacar_de_la_carcel`)
+      const playerKey = retrievePlayerKey()
+      if (!playerKey) {
+        return { error: true, mensaje: 'No hay llave del jugador almacenada' }
+      }
+      const headers = [['player-key', playerKey]]
+      const response = await fetch(`${serverUrl}/juegos/${idJuego}/sacar_de_la_carcel`,
+        { headers })
       const respuesta = await response.json()
       const juego = new Juego(respuesta.id)
       juego.asignarValores(respuesta)
@@ -241,9 +252,23 @@ export default class {
     }
   }
 
-  async soplar (idJuego:string):Promise<APIError|Juego> {
+  async soplar (idJuego:string, ficha:number):Promise<APIError|Juego> {
     try {
-      const response = await fetch(`${serverUrl}/juegos/${idJuego}/soplar`)
+      const playerKey = retrievePlayerKey()
+      if (!playerKey) {
+        return { error: true, mensaje: 'No hay llave del jugador almacenada' }
+      }
+      const url = new URL(`${serverUrl}/juegos/${idJuego}/soplar`)
+
+      const params:{[key:string]: string} = {
+        ficha: JSON.stringify(ficha)
+      }
+
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
+      const headers = [['player-key', playerKey]]
+      const response = await fetch(`${serverUrl}/juegos/${idJuego}/soplar`,
+        { headers })
       const respuesta = await response.json()
       const juego = new Juego(respuesta.id)
       juego.asignarValores(respuesta)
