@@ -81,9 +81,9 @@ class Juego {
   }
 }
 
-const serverUrl = 'https://parques-api.heroku.app'
+const serverUrl = 'https://parques-api.herokuapp.com'
 
-export default class {
+export default {
   async juegosPublicos ():Promise<APIError|ListadoJuegosPublicos> {
     try {
       const response = await fetch(`${serverUrl}/juegos`)
@@ -93,9 +93,9 @@ export default class {
         return error
       }
 
-      return { error: true, mensaje: JSON.stringify(error) }
+      return { error: true, mensaje: JSON.stringify(error.message) }
     }
-  }
+  },
 
   async crearPartida (jugadores = 4, publico = true):Promise<APIError|Juego> {
     try {
@@ -118,9 +118,9 @@ export default class {
         return error
       }
 
-      return { error: true, mensaje: JSON.stringify(error) }
+      return { error: true, mensaje: JSON.stringify(error.message) }
     }
-  }
+  },
 
   async infoJuego (idJuego:string):Promise<APIError|Juego> {
     try {
@@ -134,9 +134,9 @@ export default class {
         return error
       }
 
-      return { error: true, mensaje: JSON.stringify(error) }
+      return { error: true, mensaje: JSON.stringify(error.message) }
     }
-  }
+  },
 
   async unirse (idJuego:string):Promise<APIError|LlaveJugador> {
     try {
@@ -152,9 +152,9 @@ export default class {
         return error
       }
 
-      return { error: true, mensaje: JSON.stringify(error) }
+      return { error: true, mensaje: JSON.stringify(error.message) }
     }
-  }
+  },
 
   async iniciar (idJuego:string):Promise<APIError|Juego> {
     try {
@@ -174,9 +174,9 @@ export default class {
         return error
       }
 
-      return { error: true, mensaje: JSON.stringify(error) }
+      return { error: true, mensaje: JSON.stringify(error.message) }
     }
-  }
+  },
 
   async lanzar (idJuego:string):Promise<APIError|Juego> {
     try {
@@ -196,9 +196,9 @@ export default class {
         return error
       }
 
-      return { error: true, mensaje: JSON.stringify(error) }
+      return { error: true, mensaje: JSON.stringify(error.message) }
     }
-  }
+  },
 
   async mover (idJuego:string, ficha:number, cantidad:number):Promise<APIError|Juego> {
     try {
@@ -226,9 +226,9 @@ export default class {
         return error
       }
 
-      return { error: true, mensaje: JSON.stringify(error) }
+      return { error: true, mensaje: JSON.stringify(error.message) }
     }
-  }
+  },
 
   async sacarDeLaCarcel (idJuego:string):Promise<APIError|Juego> {
     try {
@@ -248,9 +248,9 @@ export default class {
         return error
       }
 
-      return { error: true, mensaje: JSON.stringify(error) }
+      return { error: true, mensaje: JSON.stringify(error.message) }
     }
-  }
+  },
 
   async soplar (idJuego:string, ficha:number):Promise<APIError|Juego> {
     try {
@@ -278,7 +278,7 @@ export default class {
         return error
       }
 
-      return { error: true, mensaje: JSON.stringify(error) }
+      return { error: true, mensaje: JSON.stringify(error.message) }
     }
   }
 }

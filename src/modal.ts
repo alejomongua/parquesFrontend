@@ -2,14 +2,13 @@ import {
   modalRoot,
   modalTitulo,
   modalContenido,
-  modalEnviar,
   modalOverlay,
   modalClose,
   body
 } from './interfaz'
 
-export const openModal = (titulo: string, contenido: Node, enviar: Function) => {
-  if (!modalRoot || !body || !modalTitulo || !modalContenido || !modalEnviar) {
+export const openModal = (titulo: string, contenido: Node) => {
+  if (!modalRoot || !body || !modalTitulo || !modalContenido) {
     throw new Error('No hay modal')
   }
 
@@ -21,7 +20,6 @@ export const openModal = (titulo: string, contenido: Node, enviar: Function) => 
   modalTitulo.innerHTML = titulo
   modalContenido.innerHTML = ''
   modalContenido.appendChild(contenido)
-  modalEnviar.onclick = event => enviar(event)
 
   modalOverlay?.addEventListener('click', closeModal)
 
@@ -41,7 +39,7 @@ export const openModal = (titulo: string, contenido: Node, enviar: Function) => 
 }
 
 export const closeModal = () => {
-  if (!modalRoot || !body || !modalTitulo || !modalContenido || !modalEnviar) {
+  if (!modalRoot || !body) {
     throw new Error('No hay modal')
   }
 

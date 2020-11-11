@@ -743,7 +743,5 @@ export const tablero4posiciones = {
         [281, 424]
       ],
     ],
-
   ]
-
 }
