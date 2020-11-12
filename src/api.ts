@@ -19,6 +19,7 @@ type ListadoJuegosPublicos = {
   [key:string]: {
     jugadores: number
     posiciones: number
+    created_at: number
   }
 }
 
