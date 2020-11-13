@@ -10,12 +10,12 @@ const storePlayerKey = (key:string) => localStorage.setItem(PLAYER_KEY_KEY, key)
 
 const retrievePlayerKey = () => localStorage.getItem(PLAYER_KEY_KEY)
 
-type APIError = {
+export type APIError = {
   error: boolean
   mensaje: string
 }
 
-type ListadoJuegosPublicos = {
+export type ListadoJuegosPublicos = {
   [key:string]: {
     jugadores: number
     posiciones: number
@@ -59,7 +59,7 @@ type Turno = {
   intentos: number
 }
 
-class Juego {
+export class Juego {
   id: string
   tablero?: Tablero
   jugadores?: Jugador[]
