@@ -1,4 +1,15 @@
+import Vue from 'vue'
+
+import router from './routes'
 import './main.css'
+import Main from './Components/main.vue'
+
+new Vue({
+  router,
+  render: h => h(Main)
+}).$mount('#root')
+
+/*
 import { botonListarPartidasPublicas } from './interfaz'
 import { openModal } from './modal'
 import api, { APIError, ListadoJuegosPublicos } from './api'
@@ -60,3 +71,4 @@ function main () {
 }
 
 main()
+*/

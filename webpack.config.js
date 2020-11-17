@@ -2,6 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 const ENV = process.env.NODE_ENV || 'development'
 
@@ -11,6 +12,10 @@ module.exports = {
   mode: ENV,
   module: {
     rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
@@ -40,6 +45,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
+    new VueLoaderPlugin(),
     new MiniCssExtractPlugin(),
     new CompressionPlugin({
       filename: '[path][base].br',
