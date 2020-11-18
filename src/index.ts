@@ -1,13 +1,10 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 
 import router from './routes'
 import './main.css'
 import Main from './Components/main.vue'
 
-new Vue({
-  router,
-  render: h => h(Main)
-}).$mount('#root')
+createApp(Main).use(router).mount('#root')
 
 /*
 import { botonListarPartidasPublicas } from './interfaz'
