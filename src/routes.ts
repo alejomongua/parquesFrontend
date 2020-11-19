@@ -1,13 +1,15 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
-const Baz = { template: '<div>baz</div>' }
+import Main from './Components/Main.vue'
+import Crear from './Components/Crear.vue'
+import Listar from './Components/Listar.vue'
+import Unirse from './Components/Unirse.vue'
 
 const routes = [
-  { path: '/crear-partida', component: Foo },
-  { path: '/listar-partidas-publicas', component: Bar },
-  { path: '/unirse-a-partida', component: Baz },
+  { path: '/', component: Main },
+  { path: '/crear-partida', component: Crear },
+  { path: '/listar-partidas-publicas', component: Listar },
+  { path: '/unirse-a-partida', component: Unirse },
 ]
 
 const router = createRouter({

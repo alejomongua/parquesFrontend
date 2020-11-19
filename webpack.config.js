@@ -10,6 +10,11 @@ module.exports = {
   entry: './src/index.ts',
   devtool: 'inline-source-map',
   mode: ENV,
+  devServer: {
+    historyApiFallback: {
+      index: 'index.html'
+    }
+  },
   module: {
     rules: [
       {
