@@ -6,13 +6,13 @@ module.exports = {
   extends: [
     'standard'
   ],
-  parser: '@typescript-eslint/parser',
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    ecmaVersion: 12,
-    sourceType: 'module'
+    parser: '@typescript-eslint/parser',
   },
   plugins: [
-    '@typescript-eslint'
+    '@typescript-eslint',
+    'vue'
   ],
   rules: {
     'comma-dangle': 0

@@ -1,9 +1,9 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-import Main from './Components/Main.vue'
-import Crear from './Components/Crear.vue'
-import Listar from './Components/Listar.vue'
-import Unirse from './Components/Unirse.vue'
+import Main from './Pages/Main.vue'
+import Crear from './Pages/Crear.vue'
+import Listar from './Pages/Listar.vue'
+import Unirse from './Pages/Unirse.vue'
 
 const routes = [
   { path: '/', component: Main },

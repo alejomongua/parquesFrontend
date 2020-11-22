@@ -11,17 +11,18 @@
   </nav>
 </template>
 
-<script>
-export default {
-  data() {
+<script lang='ts'>
+import { defineComponent } from 'vue'
+export default defineComponent({
+  data () {
     return {
       lista: [
-        { title: "Inicio", to: "/" },
-        { title: "Crear partida", to: "/crear-partida" },
-        { title: "Listar partidas públicas", to: "/listar-partidas-publicas" },
-        { title: "Unirse a una partida", to: "/unirse-a-partida" },
+        { title: 'Inicio', to: '/' },
+        { title: 'Crear partida', to: '/crear-partida' },
+        { title: 'Listar partidas públicas', to: '/listar-partidas-publicas' },
+        { title: 'Unirse a una partida', to: '/unirse-a-partida' },
       ],
-    };
+    }
   },
-}
+})
 </script>
