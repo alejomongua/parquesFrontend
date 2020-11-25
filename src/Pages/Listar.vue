@@ -47,12 +47,7 @@
 import { defineComponent } from 'vue'
 
 import { timeago } from '../dateHelpers'
-import api, { APIError, ListadoJuegosPublicos } from '../api'
-
-// type guard functions
-function isAPIError (response: APIError | ListadoJuegosPublicos): response is APIError {
-  return (typeof response.mensaje === 'string')
-}
+import api, { ListadoJuegosPublicos, isAPIError } from '../api'
 
 export default defineComponent({
   data () {

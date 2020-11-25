@@ -84,6 +84,10 @@ export class Juego {
 
 const serverUrl = 'https://parques-api.herokuapp.com'
 
+// type guard functions
+export function isAPIError (response: APIError | ListadoJuegosPublicos): response is APIError {
+  return (typeof response.mensaje === 'string')
+}
 export default {
   async juegosPublicos ():Promise<APIError|ListadoJuegosPublicos> {
     try {
@@ -127,6 +131,10 @@ export default {
     try {
       const response = await fetch(`${serverUrl}/juegos/${idJuego}`)
       const respuesta = await response.json()
+      if (respuesta.error) {
+        return respuesta
+      }
+
       const juego = new Juego(respuesta.id)
       juego.asignarValores(respuesta)
       return juego
@@ -134,7 +142,6 @@ export default {
       if (error?.data?.mensaje) {
         return error
       }
-
       return { error: true, mensaje: JSON.stringify(error.message) }
     }
   },

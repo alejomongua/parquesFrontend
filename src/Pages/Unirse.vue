@@ -1,4 +1,62 @@
 <template>
-    <h1>Unirse a una partida existente</h1>
-    <p>to do</p>
+  <h1 class='w-full text-center text-3xl leading-9 font-extrabold
+              my-6 text-gray-700'>
+    Unirse una nueva partida
+  </h1>
+
+  <div class='w-1/2 m-auto p-2 rounded-md border'>
+    <label class='block'>
+      <span>Digite el código de la partida para poder unirse</span>
+      <input
+        class='form-select mt-1 block w-full p-2 rounded-md bg-gray-200 border'
+        :value='juegoId'
+        @input='updateJuegoId'
+      />
+    </label>
+    <div class="w-full m-auto text-center my-4">
+      <button
+        class='bg-blue-500 hover:bg-blue-700 text-white font-bold p-3 text-lg m-2 rounded disabled:bg-blue-300'
+        @click="unirse"
+        :disabled='noExisteJuego'
+      >
+        Unirse
+      </button>
+    </div>
+  </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import api, { APIError } from '../api'
+
+export default defineComponent({
+  data () {
+    const juegoId = ''
+    const timeoutId:number = 0
+    const noExisteJuego:boolean = true
+    return {
+      juegoId,
+      timeoutId,
+      noExisteJuego
+    }
+  },
+  methods: {
+    unirse () {
+      console.log(this.juegoId)
+    },
+    updateJuegoId (e:Event) {
+      if (this.timeoutId) {
+        clearTimeout(this.timeoutId)
+      }
+      if (e.target) {
+        this.juegoId = (e.target as HTMLInputElement).value
+        this.noExisteJuego = true
+        this.timeoutId = window.setTimeout(async () => {
+          const juego = await api.infoJuego(this.juegoId)
+          this.noExisteJuego = (juego as APIError).error
+        }, 500)
+      }
+    }
+  }
+})
+</script>
