@@ -3,3 +3,8 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.tablero {
+    width: 750px;
+    height: 750px;
+}

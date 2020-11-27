@@ -30,6 +30,14 @@ module.exports = {
         loader: 'vue-loader'
       },
       {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      {
         test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
