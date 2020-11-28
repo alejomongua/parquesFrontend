@@ -303,7 +303,7 @@ export const tablero4posiciones = {
     ],
     // 43:
     [
-      [89, 328],
+      [89, 228],
       [61, 226],
       [90, 325],
       [62, 328]
@@ -411,7 +411,7 @@ export const tablero4posiciones = {
       [224, 601],
       [226, 628],
       [321, 601],
-      [321, 328]
+      [321, 628]
     ],
     // 59:
     [
@@ -477,10 +477,10 @@ export const tablero4posiciones = {
       [525, 655]
     ],
   ],
-  jugadores: [
-  // Casillas de llegada
-  // 0 - Azul
+  llegadas: [
+    // 0 - Azul
     [
+    // Casillas de llegada
     // 0:
       [
         [328, 724],
@@ -677,7 +677,6 @@ export const tablero4posiciones = {
       ],
     ],
     // 3 - Verde
-
     [
     // 0:
       [
@@ -726,7 +725,7 @@ export const tablero4posiciones = {
         [187, 332],
         [189, 430],
         [221, 332],
-        [224, 455]
+        [224, 430]
       ],
       // 7:
       [
@@ -743,5 +742,35 @@ export const tablero4posiciones = {
         [281, 424]
       ],
     ],
+  ],
+  carceles: [
+    // Azul
+    [
+      [600, 600],
+      [600, 675],
+      [675, 675],
+      [675, 600],
+    ],
+    // Naranja
+    [
+      [600, 150],
+      [600, 75],
+      [675, 150],
+      [675, 75],
+    ],
+    // Rojo
+    [
+      [150, 150],
+      [150, 75],
+      [75, 75],
+      [75, 150],
+    ],
+    // Verde
+    [
+      [150, 600],
+      [150, 675],
+      [75, 675],
+      [75, 600],
+    ]
   ]
 }

@@ -69,7 +69,7 @@ import { COLORES } from '../constants'
 
 export default defineComponent({
   data () {
-    const color = COLORES[0]
+    const color = COLORES[0][0]
     const posiciones = 4
     const visibilidadPublica:boolean = true
     const nickname:string = ''
@@ -78,7 +78,7 @@ export default defineComponent({
       color,
       visibilidadPublica,
       nickname,
-      COLORES
+      COLORES: COLORES.map(color => color[0])
     }
   },
   computed: {
