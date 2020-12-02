@@ -56,7 +56,7 @@ const puntoPromedio = (puntos:Punto[]):Punto => {
   return [sumX / puntos.length, sumY / puntos.length]
 }
 
-export const lineaMedia = (casilla: Casilla): Punto[] => {
+export const lineaMedia = (casilla: Casilla): Linea => {
   const segmentos = extraerSegmentos(casilla)
   const punto1 = puntoPromedio([segmentos[0].punto1, segmentos[0].punto2])
   const punto2 = puntoPromedio([segmentos[1].punto1, segmentos[1].punto2])
@@ -64,24 +64,54 @@ export const lineaMedia = (casilla: Casilla): Punto[] => {
   return [punto1, punto2]
 }
 
-export const dividirLinea = (linea: Linea, divisiones:number, puntos:Punto[] = []): Punto[] => {
+export const dividirLinea = (linea: Linea, divisiones:number): Punto[] => {
   /*
    * Pendiente:
    * Función recurrente para dividir la línea en segmentos iguales
    * Para poder poner las fichas equidistantes en una casilla
    */
-  if (divisiones > 4) {
-    throw Error('Demasiadas divisiones')
+  const puntos:Punto[] = []
+
+  if (divisiones < 1) {
+    return puntos
   }
 
-  const clonePuntos = [...puntos]
+  puntos.push(puntoPromedio(linea))
 
   if (divisiones === 1) {
-    clonePuntos.push(puntoPromedio(linea))
-    return clonePuntos
+    return puntos
   }
+
+  puntos.push(puntoPromedio([linea[0], puntos[0]]))
+  puntos.push(puntoPromedio([linea[1], puntos[0]]))
 
   if (divisiones === 2) {
-
+    // Elimine el primer punto
+    puntos.shift()
+    return puntos
   }
+
+  if (divisiones === 3) {
+    return puntos
+  }
+
+  if (divisiones === 4) {
+    puntos.push(puntoPromedio([linea[0], puntos[1]]))
+    puntos.push(puntoPromedio([puntos[1], puntos[0]]))
+    puntos.push(puntoPromedio([puntos[0], puntos[2]]))
+    puntos.push(puntoPromedio([puntos[2], linea[1]]))
+
+    // Elimine los otros tres puntos
+    puntos.shift()
+    puntos.shift()
+    puntos.shift()
+    return puntos
+  }
+
+  throw Error(`No se puede dividir en ${divisiones}`)
+}
+
+export const dividirCasilla = (casilla:Casilla):Punto[] => {
+  const linea = lineaMedia(casilla)
+  return dividirLinea(linea, 4)
 }
