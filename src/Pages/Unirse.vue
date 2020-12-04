@@ -23,21 +23,28 @@
       </button>
     </div>
   </div>
+  <ModalUnirse v-if='isModalOpen' @close='isModalOpen = false' />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import api, { APIError } from '../api'
+import api, { isAPIError } from '../api'
+import ModalUnirse from './ModalUnirse.vue'
 
 export default defineComponent({
+  components: {
+    ModalUnirse
+  },
   data () {
     const juegoId = ''
     const timeoutId:number = 0
     const noExisteJuego:boolean = true
+    const isModalOpen:boolean = false
     return {
       juegoId,
       timeoutId,
-      noExisteJuego
+      noExisteJuego,
+      isModalOpen,
     }
   },
   methods: {
@@ -53,7 +60,12 @@ export default defineComponent({
         this.noExisteJuego = true
         this.timeoutId = window.setTimeout(async () => {
           const juego = await api.infoJuego(this.juegoId)
-          this.noExisteJuego = (juego as APIError).error
+          if (isAPIError(juego)) {
+            return
+          }
+
+          this.noExisteJuego = false
+          this.isModalOpen = true
         }, 500)
       }
     }

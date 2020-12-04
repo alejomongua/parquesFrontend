@@ -1,75 +1,43 @@
 <template>
   <div class='w-1/2 m-auto relative'>
-    <img :src='tablero' class='absolute'/>
-    <svg class="absolute tablero border">
-        <g
-          v-for='(posicion, indice) in tablero4posiciones.principal'
-          :key='indice'
-          class='bg-black'
-        >
-          <circle
-            v-for='(punto, indice) in dividirCasilla(posicion)'
-            :key='indice'
-            :cx='punto[0]'
-            :cy='punto[1]'
-            r='10' />
-        </g>
-        <g
-          v-for='(casillas, indice) in tablero4posiciones.carceles'
-          :key='JSON.stringify(indice)'
-          :fill='COLORES[indice][1]'
-          stroke-width='2'
-          stroke='black'
-          >
-          <circle
-            v-for='(posicion, indice) in casillas'
-            :key='indice'
-            :cx='posicion[0]'
-            :cy='posicion[1]'
-            r='10'
-          />
-        </g>
-        <g
-          v-for='(casillas, indice) in tablero4posiciones.llegadas'
-          :key='indice'
-          :fill='COLORES[indice][1]'
-          stroke-width='2'
-          stroke='black'
-          >
-          <circle
-            v-for='(posicion, indice) in casillas'
-            :key='indice'
-            :cx='average(posicion, 0)'
-            :cy='average(posicion, 1)'
-            r='10'
-          />
-        </g>
-    </svg>
+    <Tablero v-if='juego' :juego='juego' />
+    <p v-else class="text-2xl">El juego está cargando, por favor espere...</p>
   </div>
+  <pre
+    v-if='juego && debug'
+    class='bg-gray-200 border rounded w-3/4 m-auto mt-4 p-4 text-xs'
+    v-html='JSON.stringify(juego, null, 2)' />
 </template>
 
 <script lang='ts'>
 import { defineComponent } from 'vue'
-import tablero from '../../assets/t4p.png'
-import { tablero4posiciones } from '../casillas'
-import { COLORES } from '../constants'
-import { dividirCasilla } from '../helpers'
+import api, { isAPIError, Juego } from '../api'
+import Tablero from './Tablero.vue'
 
 export default defineComponent({
-  data () {
+  components: {
+    Tablero
+  },
+  data ():{
+    juego: Juego | null,
+    debug: boolean
+    } {
     return {
-      tablero,
-      COLORES,
-      tablero4posiciones
+      juego: null,
+      debug: true,
     }
   },
-  methods: {
-    average (posicion:number[][], xOrY:number) {
-      let sum = 0
-      posicion.forEach(pos => { sum += pos[xOrY] })
-      return sum / posicion.length
-    },
-    dividirCasilla
+  mounted: async function () {
+    const juegoId = this.$route.params.juegoId as string
+
+    const juego = await api.infoJuego(juegoId)
+    if (isAPIError(juego)) {
+      this.$router.push('/not-found')
+      return
+    }
+
+    this.juego = juego
   }
+
 })
 </script>

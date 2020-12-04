@@ -85,8 +85,8 @@ export class Juego {
 const serverUrl = 'https://parques-api.herokuapp.com'
 
 // type guard functions
-export function isAPIError (response: APIError | ListadoJuegosPublicos): response is APIError {
-  return (typeof response.mensaje === 'string')
+export function isAPIError (response: APIError | ListadoJuegosPublicos | Juego): response is APIError {
+  return (typeof (response as APIError).mensaje === 'string')
 }
 export default {
   async juegosPublicos ():Promise<APIError|ListadoJuegosPublicos> {
