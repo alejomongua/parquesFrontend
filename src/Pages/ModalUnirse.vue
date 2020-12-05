@@ -83,7 +83,7 @@ export default defineComponent({
         return
       }
 
-      console.log(llaveJugador)
+      this.$router.push(`/juego/${this.$props.juegoId}`)
     }
   }
 

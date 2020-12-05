@@ -6,9 +6,13 @@
 
 const PLAYER_KEY_KEY = 'playerKey'
 
-const storePlayerKey = (key:string) => localStorage.setItem(PLAYER_KEY_KEY, key)
+const storePlayerKey = (juegoId:string, key:string) => (
+  localStorage.setItem(`${PLAYER_KEY_KEY}:${juegoId}`, key)
+)
 
-const retrievePlayerKey = () => localStorage.getItem(PLAYER_KEY_KEY)
+const retrievePlayerKey = (juegoId:string) => (
+  localStorage.getItem(`${PLAYER_KEY_KEY}:${juegoId}`)
+)
 
 export type APIError = {
   error: boolean
@@ -28,7 +32,7 @@ type LlaveJugador = {
   key: string
 }
 
-type Ficha = {
+export type Ficha = {
   posicion: number
   encarcelada: boolean
   coronada: boolean
@@ -39,7 +43,7 @@ type Tablero = {
   colores: (string | null)[]
 }
 
-type Jugador = {
+export type Jugador = {
   nickname: string
   color: string
   fichas: Ficha[]
@@ -164,7 +168,7 @@ export default {
       if (!respuesta.key) {
         return { error: true, mensaje: 'No se retornó llave del jugador' }
       }
-      storePlayerKey(respuesta.key)
+      storePlayerKey(idJuego, respuesta.key)
       return respuesta
     } catch (error) {
       if (error?.data?.mensaje) {
@@ -177,7 +181,7 @@ export default {
 
   async iniciar (idJuego:string):Promise<APIError|Juego> {
     try {
-      const playerKey = retrievePlayerKey()
+      const playerKey = retrievePlayerKey(idJuego)
       if (!playerKey) {
         return { error: true, mensaje: 'No hay llave del jugador almacenada' }
       }
@@ -199,7 +203,7 @@ export default {
 
   async lanzar (idJuego:string):Promise<APIError|Juego> {
     try {
-      const playerKey = retrievePlayerKey()
+      const playerKey = retrievePlayerKey(idJuego)
       if (!playerKey) {
         return { error: true, mensaje: 'No hay llave del jugador almacenada' }
       }
@@ -221,7 +225,7 @@ export default {
 
   async mover (idJuego:string, ficha:number, cantidad:number):Promise<APIError|Juego> {
     try {
-      const playerKey = retrievePlayerKey()
+      const playerKey = retrievePlayerKey(idJuego)
       if (!playerKey) {
         return { error: true, mensaje: 'No hay llave del jugador almacenada' }
       }
@@ -251,7 +255,7 @@ export default {
 
   async sacarDeLaCarcel (idJuego:string):Promise<APIError|Juego> {
     try {
-      const playerKey = retrievePlayerKey()
+      const playerKey = retrievePlayerKey(idJuego)
       if (!playerKey) {
         return { error: true, mensaje: 'No hay llave del jugador almacenada' }
       }
@@ -273,7 +277,7 @@ export default {
 
   async soplar (idJuego:string, ficha:number):Promise<APIError|Juego> {
     try {
-      const playerKey = retrievePlayerKey()
+      const playerKey = retrievePlayerKey(idJuego)
       if (!playerKey) {
         return { error: true, mensaje: 'No hay llave del jugador almacenada' }
       }
