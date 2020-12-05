@@ -23,7 +23,11 @@
       </button>
     </div>
   </div>
-  <ModalUnirse v-if='isModalOpen' @close='isModalOpen = false' />
+  <ModalUnirse
+    v-if='isModalOpen'
+    @close='isModalOpen = false'
+    :juego-id='juegoId'
+    />
 </template>
 
 <script lang="ts">
@@ -50,6 +54,7 @@ export default defineComponent({
   methods: {
     unirse () {
       console.log(this.juegoId)
+      this.isModalOpen = true
     },
     updateJuegoId (e:Event) {
       if (this.timeoutId) {
@@ -58,15 +63,16 @@ export default defineComponent({
       if (e.target) {
         this.juegoId = (e.target as HTMLInputElement).value
         this.noExisteJuego = true
-        this.timeoutId = window.setTimeout(async () => {
-          const juego = await api.infoJuego(this.juegoId)
-          if (isAPIError(juego)) {
-            return
-          }
+        if (this.juegoId !== '') {
+          this.timeoutId = window.setTimeout(async () => {
+            const juego = await api.infoJuego(this.juegoId)
+            if (isAPIError(juego)) {
+              return
+            }
 
-          this.noExisteJuego = false
-          this.isModalOpen = true
-        }, 500)
+            this.noExisteJuego = false
+          }, 500)
+        }
       }
     }
   }

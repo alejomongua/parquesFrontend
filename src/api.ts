@@ -84,8 +84,10 @@ export class Juego {
 
 const serverUrl = 'https://parques-api.herokuapp.com'
 
+type Respuesta = APIError | ListadoJuegosPublicos | Juego | LlaveJugador
+
 // type guard functions
-export function isAPIError (response: APIError | ListadoJuegosPublicos | Juego): response is APIError {
+export function isAPIError (response: Respuesta): response is APIError {
   return (typeof (response as APIError).mensaje === 'string')
 }
 export default {
@@ -146,9 +148,18 @@ export default {
     }
   },
 
-  async unirse (idJuego:string):Promise<APIError|LlaveJugador> {
+  async unirse (idJuego:string, color:string, nickname:string):Promise<APIError|LlaveJugador> {
     try {
-      const response = await fetch(`${serverUrl}/juegos/${idJuego}/unirse`)
+      const params: { [key: string]: string } = {
+        color,
+        nickname
+      }
+
+      const url = new URL(`${serverUrl}/juegos/${idJuego}/unirse`)
+
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
+      const response = await fetch(url.toString())
       const respuesta = await response.json()
       if (!respuesta.key) {
         return { error: true, mensaje: 'No se retornó llave del jugador' }
