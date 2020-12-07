@@ -111,7 +111,7 @@ export const dividirLinea = (linea: Linea, divisiones:number): Punto[] => {
   throw Error(`No se puede dividir en ${divisiones}`)
 }
 
-export const dividirCasilla = (casilla:Casilla):Punto[] => {
+export const dividirCasilla = (casilla:Casilla, divisiones:number):Punto[] => {
   const linea = lineaMedia(casilla)
-  return dividirLinea(linea, 4)
+  return dividirLinea(linea, divisiones)
 }

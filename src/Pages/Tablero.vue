@@ -66,6 +66,7 @@ import { defineComponent } from 'vue'
 import { COLORES } from '../constants'
 import { Jugador, Ficha as FichaType } from '../api'
 import { tablero4posiciones } from '../casillas'
+import { dividirCasilla, Casilla } from '../helpers'
 
 import Ficha from './Ficha.vue'
 const average = (posicion:number[][], xOrY:number) => {
@@ -91,6 +92,9 @@ export default defineComponent({
       this.$props.juego.tablero &&
       this.$props.juego.tablero.colores) {
       const colores = this.$props.juego.tablero.colores
+      const casillas:{
+        [key:number]: string[]
+      } = {}
       const carcelesJugadores:{
         [key:string]: number,
       } = {}
@@ -112,17 +116,32 @@ export default defineComponent({
 
           if (ficha.encarcelada) {
             this.fichas.push([color, carcel[index][0], carcel[index][1]])
+            return
           }
 
-          const coordenadasCasilla = tablero4posiciones.principal[ficha.posicion]
+          if (casillas[ficha.posicion]) {
+            casillas[ficha.posicion].push(color)
+            return
+          }
 
-          this.fichas.push([
-            color,
-            average(coordenadasCasilla, 0),
-            average(coordenadasCasilla, 1)
-          ])
+          casillas[ficha.posicion] = [color]
         })
       })
+
+      for (const casilla in casillas) {
+        const posicionCasilla = tablero4posiciones.principal[casilla]
+
+        if (casillas[casilla].length > 4) {
+          console.log('Demasiadas fichas en una casilla')
+          // to do
+        } else {
+          const puntos = dividirCasilla(posicionCasilla as Casilla, casillas[casilla].length)
+          for (let i = 0; i < casillas[casilla].length; i++) {
+            const color = casillas[casilla][i]
+            this.fichas.push([color, puntos[i][0], puntos[i][1]])
+          }
+        }
+      }
     }
   }
 })

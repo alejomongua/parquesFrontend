@@ -8,7 +8,7 @@
           class='bg-black'
         >
           <circle
-            v-for='(punto, indice) in dividirCasilla(posicion)'
+            v-for='(punto, indice) in dividirCasilla(posicion, 4)'
             :key='indice'
             :cx='punto[0]'
             :cy='punto[1]'

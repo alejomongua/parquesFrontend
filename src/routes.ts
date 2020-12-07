@@ -5,6 +5,7 @@ import Crear from './Pages/Crear.vue'
 import Listar from './Pages/Listar.vue'
 import Unirse from './Pages/Unirse.vue'
 import Juego from './Pages/Juego.vue'
+import JuegoPruebas from './Pages/JuegoPruebas.vue'
 import Error404 from './Pages/404.vue'
 
 const routes = [
@@ -27,6 +28,11 @@ const routes = [
     path: '/unirse-a-partida',
     name: 'unirse-a-partida',
     component: Unirse
+  },
+  {
+    path: '/juego/prueba',
+    name: 'juegoPrueba',
+    component: JuegoPruebas
   },
   {
     path: '/juego/:juegoId',
