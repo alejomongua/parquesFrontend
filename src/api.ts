@@ -88,7 +88,7 @@ export class Juego {
 
 const serverUrl = 'https://parques-api.herokuapp.com'
 
-type Respuesta = APIError | ListadoJuegosPublicos | Juego | LlaveJugador
+type Respuesta = APIError | ListadoJuegosPublicos | Juego | LlaveJugador | string
 
 // type guard functions
 export function isAPIError (response: Respuesta): response is APIError {
@@ -303,5 +303,17 @@ export default {
 
       return { error: true, mensaje: JSON.stringify(error.message) }
     }
+  },
+
+  async consultarMiColor (idJuego: string):Promise<APIError|string> {
+    const playerKey = retrievePlayerKey(idJuego)
+    if (!playerKey) {
+      return { error: true, mensaje: 'No hay llave del jugador almacenada' }
+    }
+    const headers = [['player-key', playerKey]]
+    const response = await fetch(`${serverUrl}/juegos/${idJuego}/mi_color`,
+      { headers })
+    const respuesta = await response.json()
+    return respuesta.color
   }
 }

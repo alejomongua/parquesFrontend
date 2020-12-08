@@ -41,6 +41,11 @@
       </table>
     </div>
   </div>
+  <ModalUnirse
+    v-if='isModalOpen'
+    @close='isModalOpen = false'
+    :juego-id='juegoId'
+    />
 </template>
 
 <script lang="ts">
@@ -49,13 +54,22 @@ import { defineComponent } from 'vue'
 import { timeago } from '../dateHelpers'
 import api, { ListadoJuegosPublicos, isAPIError } from '../api'
 
+import ModalUnirse from './ModalUnirse.vue'
+
 export default defineComponent({
+  components: {
+    ModalUnirse
+  },
   data () {
+    const juegoId = 0
+    const isModalOpen:boolean = false
     const juegos:ListadoJuegosPublicos = {}
     const juegosOrdenados:[string, number][] = []
     return {
       juegos,
-      juegosOrdenados
+      juegoId,
+      isModalOpen,
+      juegosOrdenados,
     }
   },
   mounted: async function () {
@@ -78,8 +92,8 @@ export default defineComponent({
   methods: {
     timeago,
     unirse (id:number) {
-      // To do
-      console.log(id)
+      this.juegoId = id
+      this.isModalOpen = true
     }
   }
 })
