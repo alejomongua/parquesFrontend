@@ -86,7 +86,8 @@ export class Juego {
   }
 }
 
-const serverUrl = 'https://parques-api.herokuapp.com'
+const serverAddress = 'parques-api.herokuapp.com'
+const serverUrl = `https://${serverAddress}`
 
 type Respuesta = APIError | ListadoJuegosPublicos | Juego | LlaveJugador | string
 
@@ -315,5 +316,17 @@ export default {
       { headers })
     const respuesta = await response.json()
     return respuesta.color
+  },
+
+  suscribirse (idJuego: string, callback:{(juego:Juego):void}):void {
+    const socket = new WebSocket(`wss://${serverAddress}/juegos/${idJuego}/suscribirse`)
+    socket.onmessage = function (message:MessageEvent) {
+      try {
+        const juego = JSON.parse(message.data) as Juego
+        callback(juego)
+      } catch (e) {
+        console.error(e)
+      }
+    }
   }
 }

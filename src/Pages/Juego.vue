@@ -5,6 +5,7 @@
   </div>
   <div>
     <button
+      v-if='habilitarLanzar'
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold p-3 text-lg m-2 rounded disabled:bg-blue-300"
       @click="lanzar">
       <Dados /> Lanzar los dados
@@ -19,8 +20,8 @@
 <script lang='ts'>
 import { defineComponent } from 'vue'
 import api, { isAPIError, Juego } from '../api'
-import Tablero from './Tablero.vue'
-import Dados from './DadosIcon.vue'
+import Tablero from '../Components/Tablero.vue'
+import Dados from '../Components/DadosIcon.vue'
 
 export default defineComponent({
   components: {
@@ -35,7 +36,7 @@ export default defineComponent({
     return {
       juego: null,
       debug: true,
-      color: 'Amarillo'
+      color: ''
     }
   },
   mounted: async function () {
@@ -43,11 +44,25 @@ export default defineComponent({
 
     const juego = await api.infoJuego(juegoId)
     if (isAPIError(juego)) {
-      this.$router.push('/not-found')
+      this.$store.commit('agregarError', 'No se encontró el juego')
+      this.$router.push('/')
       return
     }
 
     this.juego = juego
+
+    api.suscribirse(juegoId, (juego:Juego) => {
+      console.log(juego)
+      this.juego = juego
+    })
+
+    const micolor = await api.consultarMiColor(juegoId)
+
+    if (isAPIError(micolor)) {
+      this.$store.commit('agregarError', micolor.mensaje)
+    } else {
+      this.color = micolor
+    }
   },
   lanzar: async function () {
     if (!this.juego) {
@@ -56,26 +71,19 @@ export default defineComponent({
     const juego = await api.lanzar(this.juego.id)
     if (isAPIError(juego)) {
       console.error(juego)
-      // To do
+      this.$store.commit('agregarError', juego.mensaje)
       return
     }
     this.juego = juego
-  }, /*
+  },
   computed: {
-    async habilitarLanzar ():Promise<boolean> {
-      if (!this.juego || !this.juego.turno) {
+    habilitarLanzar ():boolean {
+      if (!this.juego || !this.juego.turno || !this.color) {
         return false
       }
 
-      const micolor = await api.consultarMiColor(this.juego.id)
-
-      if (isAPIError(micolor)) {
-        return false
-      }
-
-      return this.juego.turno.color === micolor
+      return this.juego.turno.color === this.color
     }
   }
-*/
 })
 </script>

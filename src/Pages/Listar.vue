@@ -54,7 +54,7 @@ import { defineComponent } from 'vue'
 import { timeago } from '../dateHelpers'
 import api, { ListadoJuegosPublicos, isAPIError } from '../api'
 
-import ModalUnirse from './ModalUnirse.vue'
+import ModalUnirse from '../Components/ModalUnirse.vue'
 
 export default defineComponent({
   components: {

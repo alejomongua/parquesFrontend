@@ -69,11 +69,6 @@ import { tablero4posiciones } from '../casillas'
 import { dividirCasilla, Casilla } from '../helpers'
 
 import Ficha from './Ficha.vue'
-const average = (posicion:number[][], xOrY:number) => {
-  let sum = 0
-  posicion.forEach(pos => { sum += pos[xOrY] })
-  return sum / posicion.length
-}
 
 export default defineComponent({
   components: {

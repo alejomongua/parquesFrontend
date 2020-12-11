@@ -33,7 +33,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import api, { isAPIError } from '../api'
-import ModalUnirse from './ModalUnirse.vue'
+import ModalUnirse from '../Components/ModalUnirse.vue'
 
 export default defineComponent({
   components: {
