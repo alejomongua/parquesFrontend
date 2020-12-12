@@ -3,6 +3,7 @@
     :cx='posicionX'
     :cy='posicionY'
     :fill='color'
+    :fill-opacity='opacidad'
     stroke-width='2'
     stroke='black'
     r='10'
@@ -13,6 +14,6 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  props: ['color', 'posicionX', 'posicionY'],
+  props: ['color', 'opacidad', 'posicionX', 'posicionY'],
 })
 </script>

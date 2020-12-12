@@ -54,8 +54,11 @@
     v-for='(ficha, index) in fichas'
     :key='index'
     :color='ficha[0]'
+    :opacidad='opacidad(ficha)'
     :posicionX='ficha[1]'
-    :posicionY='ficha[2]' />
+    :posicionY='ficha[2]'
+    @click="seleccionarFicha(ficha)"
+    />
 </svg>
 
 </template>
@@ -75,11 +78,15 @@ export default defineComponent({
     Ficha,
   },
   props: ['juego'],
-  data () {
-    const fichas:[string, number, number][] = []
+  data ():{
+    fichas: [string, number, number, number][],
+    colorJugador: string[],
+    fichaSeleccionada: [string, number] | null
+    } {
     return {
       colorJugador: ['fill:#FFF', 'fill:#FFF', 'fill:#FFF', 'fill:#FFF'],
-      fichas,
+      fichas: [],
+      fichaSeleccionada: null,
     }
   },
   mounted () {
@@ -88,7 +95,7 @@ export default defineComponent({
       this.$props.juego.tablero.colores) {
       const colores = this.$props.juego.tablero.colores
       const casillas:{
-        [key:number]: string[]
+        [key:number]: [string, number][]
       } = {}
       const carcelesJugadores:{
         [key:string]: number,
@@ -110,16 +117,16 @@ export default defineComponent({
           }
 
           if (ficha.encarcelada) {
-            this.fichas.push([color, carcel[index][0], carcel[index][1]])
+            this.fichas.push([color, carcel[index][0], carcel[index][1], index])
             return
           }
 
           if (casillas[ficha.posicion]) {
-            casillas[ficha.posicion].push(color)
+            casillas[ficha.posicion].push([color, index])
             return
           }
 
-          casillas[ficha.posicion] = [color]
+          casillas[ficha.posicion] = [[color, index]]
         })
       })
 
@@ -133,10 +140,24 @@ export default defineComponent({
           const puntos = dividirCasilla(posicionCasilla as Casilla, casillas[casilla].length)
           for (let i = 0; i < casillas[casilla].length; i++) {
             const color = casillas[casilla][i]
-            this.fichas.push([color, puntos[i][0], puntos[i][1]])
+            this.fichas.push([color[0], puntos[i][0], puntos[i][1], color[1]])
           }
         }
       }
+    }
+  },
+  methods: {
+    seleccionarFicha (ficha:[string, number, number, number]) {
+      this.fichaSeleccionada = [ficha[0], ficha[3]]
+    },
+    opacidad (ficha:[string, number, number, number]) {
+      if (this.fichaSeleccionada &&
+          ficha[0] === this.fichaSeleccionada[0] &&
+          ficha[3] === this.fichaSeleccionada[1]) {
+        return '50%'
+      }
+
+      return '100%'
     }
   }
 })
