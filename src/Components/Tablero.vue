@@ -72,21 +72,21 @@ import { tablero4posiciones } from '../casillas'
 import { dividirCasilla, Casilla } from '../helpers'
 
 import Ficha from './Ficha.vue'
+import { mapState } from 'vuex'
 
 export default defineComponent({
   components: {
     Ficha,
   },
+  computed: mapState(['fichaSeleccionada']),
   props: ['juego'],
   data ():{
     fichas: [string, number, number, number][],
     colorJugador: string[],
-    fichaSeleccionada: [string, number] | null
     } {
     return {
       colorJugador: ['fill:#FFF', 'fill:#FFF', 'fill:#FFF', 'fill:#FFF'],
       fichas: [],
-      fichaSeleccionada: null,
     }
   },
   mounted () {
@@ -148,7 +148,7 @@ export default defineComponent({
   },
   methods: {
     seleccionarFicha (ficha:[string, number, number, number]) {
-      this.fichaSeleccionada = [ficha[0], ficha[3]]
+      this.$store.commit('seleccionarFicha', [ficha[0], ficha[3]])
     },
     opacidad (ficha:[string, number, number, number]) {
       if (this.fichaSeleccionada &&

@@ -1,13 +1,15 @@
 import { createStore } from 'vuex'
 
 export interface State {
-  errores: string[]
+  errores: string[],
+  fichaSeleccionada: [string, number] | null,
 }
 
 export const store = createStore({
   state ():State {
     return {
-      errores: []
+      errores: [],
+      fichaSeleccionada: null,
     }
   },
   mutations: {
@@ -16,6 +18,9 @@ export const store = createStore({
     },
     eliminarError (state:State, payload:string) {
       state.errores = state.errores.filter((error:string) => error !== payload)
+    },
+    seleccionarFicha (state:State, payload:[string, number] | null) {
+      state.fichaSeleccionada = payload
     }
   }
 })
