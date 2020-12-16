@@ -59,6 +59,15 @@
     :posicionY='ficha[2]'
     @click="seleccionarFicha(ficha)"
     />
+  <g id="casillas">
+    <polygon
+      v-for='(casilla, index) in casillas'
+      :key='index'
+      :points='puntosPoligono(casilla)'
+      @click='seleccionarPoligono(casilla)'
+      fill-opacity='0%'
+    />
+  </g>
 </svg>
 
 </template>
@@ -83,13 +92,19 @@ export default defineComponent({
   data ():{
     fichas: [string, number, number, number][],
     colorJugador: string[],
+    casillas: number[][][],
     } {
     return {
       colorJugador: ['fill:#FFF', 'fill:#FFF', 'fill:#FFF', 'fill:#FFF'],
       fichas: [],
+      casillas: []
     }
   },
   mounted () {
+    this.casillas = tablero4posiciones.principal
+    tablero4posiciones.llegadas.forEach(color => {
+      this.casillas = this.casillas.concat(color)
+    })
     if (this.$props.juego &&
       this.$props.juego.tablero &&
       this.$props.juego.tablero.colores) {
@@ -158,6 +173,14 @@ export default defineComponent({
       }
 
       return '100%'
+    },
+    puntosPoligono (casilla:number[][]):string {
+      return casilla
+        .map(puntos => `${puntos[0]},${puntos[1]}`)
+        .join(' ')
+    },
+    seleccionarPoligono (casilla:number[][]) {
+      console.log(casilla)
     }
   }
 })
